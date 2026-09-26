@@ -33,6 +33,23 @@ KnockGS calibrates the effective elasticity and density scales of a physics-inte
 
 The candidate-library size is denoted by `J` and is not fixed by the method. The main paper benchmark uses `J = 54`, while the supplementary study also evaluates smaller libraries.
 
+## Core code (partial release)
+
+The response descriptor and calibration implementation are now available. This
+small CPU-only release includes five-feature extraction, response retrieval,
+local/global ridge estimation, a real precomputed Ficus example, and regression
+tests against archived predictions. It does not include the full simulator,
+Gaussian assets, or rendering pipeline.
+
+See [the code release guide](CODE_RELEASE.md) for setup, data conventions, and
+scope. Quick start from the repository root:
+
+```sh
+python -m pip install -r requirements.txt
+python -m response_calibration --library examples/ficus/library.csv --queries examples/ficus/queries.csv --output predictions.json
+python -m unittest discover -s tests -v
+```
+
 ## Results
 
 Across five held-out Pillow targets, local ridge reduces mean joint scale error to **1.13%**, compared with **2.37%** for response KNN and **2.45%** for global ridge under the same Probe-A evidence. The frozen estimate also yields the lowest trajectory error under the held-out direction- and magnitude-shifted probes.
